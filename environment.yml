@@ -143,5 +143,5 @@ dependencies:
   - pip:
     - pyqt5-sip==4.19.18
     - pyqtwebengine==5.12.1
-prefix: /home/kjrw606/miniconda3/envs/ReinventCommunity
+
 
