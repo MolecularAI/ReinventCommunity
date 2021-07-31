@@ -1,0 +1,212 @@
+# Copyright (C) 1998-2005 by OpenEye Scientific Software, Inc.
+# All rights reserved.  This is proprietary data file and may not be
+# distributed or commercialized in any form without permission from
+# OpenEye Scientific Software, Inc.
+#
+# This file is a set of atom, functional-group and meta-functional-
+# group definitions for use with defining chemical matching in ROCS.
+# The symantics include DEFINE, PATTERN, TYPE and INTERACTION state-
+# ments.
+#
+# The DEFINE statements serve to bind intermediate SMARTS to variable 
+# names (indicated with # a $variable).  These are useful for generation 
+# of complex recursive SMARTS.  The TYPE statements declare the name 
+# space for use in PATTERN and INTERACTION statements.  The PATTERN 
+# statements link a SMARTS to a type.  The INTERACTION statements 
+# define the interaction between two TYPES as either attractive or repulsive.
+#
+# You can also create your own interaction rules using any of these
+# below in building your interaction rules.
+#
+# For example
+# TYPE carbonyl_link
+# PATTERN carbonyl_link [$amide,$ester,$sulfonamide]
+# INTERACTION carbonyl_link carbonyl_link attractive
+#
+# Please Note:  Any new DEFINE or PATTERN statement which takes
+# advantage of previously defined variables must come LATER in this
+# input file.  Therefore, it is advisable to place any new statements
+# at the end of this file.
+#
+# Bear in mind that interactions can be double counted.  For example
+# if two atoms fall under both aromatic and hydrophobic types, their
+# interaction would be counted twice.
+#########################################
+#        Preliminary Definitions        #
+#########################################
+#
+# define degree (independent of explicit/implicit)
+#
+DEFINE hd1 [X1H0,X2H1,X3H2,X4H3,X5H4,X6H5]
+DEFINE hd2 [X2H0,X3H1,X4H2,X5H3,X6H4]
+DEFINE hd3 [X3H0,X4H1,X5H2,X6H3]
+DEFINE hd4 [X4H0,X5H1,X6H2]
+#
+# hydrophobic
+#
+DEFINE php [#6,#16&$hd2&!$(S=*),#35,#53;R0;!$(*~[!#1;!#6;!$([#16;$hd2])])]
+DEFINE mphp [#6,#16&$hd2&!$(S=*),#17,#35,#53;R0;!$(*~[!#7;!#1;!#6;!$([#16;$hd2])])]
+DEFINE thp [$php;$hd1]
+DEFINE mthp [$mphp;$hd1]
+DEFINE hp [$php;!$hd1]
+DEFINE ehp [$hp;!$(*([$hp])[$hp])]
+#
+# acceptors
+#
+DEFINE ACamine [N;!$(N*=[!#6]);!$(N~[!#6;!#1]);!$(Na);!$(N#*);!$(N=*)]
+DEFINE ACphosphate [O;$hd1;$(O~P(~O)~O)]
+DEFINE ACcarboxylate [O;$hd1;$(O[C;!$(*N)]=O),$(O=[C;!$(*N)][O;$hd1])]
+DEFINE ACwater [OH2]
+DEFINE AChet6N [nH0;X2;$(n1aaaaa1)]
+DEFINE ACphosphinyl [O;$(O=P);!$(O=P~O)]
+DEFINE ACsulphoxide [O;$(O=[S;!$(S(~O)~O);$(S([#6])[#6])])]
+#DEFINE ACprimaryAmine [$ACamine;$hd1;!X4] #leave off for implict charge
+DEFINE AChet5N [nH0;X2;$(n1aaaa1)]
+DEFINE ACthiocarbonyl [S;X1;$(S=[#6])]
+DEFINE AChydroxyl [O;$hd1;$(O-[C;!$(C=*)])]
+DEFINE ACsulphate [O;$hd1;$(O~S(~O)~O)]
+#DEFINE ACtertiaryAmine [$ACamine;$hd3] #leave off for implict charge
+DEFINE ACamide [O;$(O=[#6][#7]);!$(O=[#6]([#7])[#7,#8,#16])]
+DEFINE ACcarbamate [O;$(O=[#6]([#7])[#8])]
+DEFINE ACurea [O;$(O=[#6]([#7])[#7])]
+DEFINE ACester [O;$(O=[#6][#8]*);!$(O=[#6]([#7,#8,#16])[#8]*)]
+DEFINE ACnitrile [N;$hd1;$(N#C)]
+DEFINE ACimine [N;!$hd3;$(N(=C)C),$(N=[#6]);!$(N=[#6][#7,#8;!$(*S=O)])]
+DEFINE ACketone [O;$hd1;$(O=[#6;$([H2]),$([H1]-[#6]),$(*([#6])[#6])])]
+#DEFINE ACsecondaryAmine [$ACamine;$hd2;!X4] #leave off for implict charge
+DEFINE ACphenol [O;$hd1;$(Oa)]
+DEFINE ACether [O;$(*([#6;!$(*=[O,S,N])])[#6;!$(*=[O,S,N])])]
+DEFINE ACprimaryAniline [N;$(Na);$hd1]
+DEFINE ACnitro [O;$hd1;$(O~N~[O;$hd1])]
+DEFINE AChet5O [o;X2;$(o1cccc1),$(o1ccccc1);!$(*[#6]=O)]
+DEFINE ACsulphone [O;$(O=[S;$(S(~O)(~O)([#6,#7])[#6])])]
+# strong acceptors
+DEFINE strongAcceptor [$ACphosphate,$ACcarboxylate,$ACwater,$AChet6N,$ACphosphinyl]
+# moderate acceptors
+#DEFINE moderateAcceptor [$ACsulphoxide,$ACprimaryAmine,$AChet5N,$ACthiocarbonyl,$AChydroxyl,$ACsulphate,$ACtertiaryAmine,$ACamide,$ACcarbamate,$ACurea]
+DEFINE moderateAcceptor [$ACsulphoxide,$AChet5N,$ACthiocarbonyl,$AChydroxyl,$ACsulphate,$ACamide,$ACcarbamate,$ACurea]
+# weak acceptors
+#DEFINE weakAcceptor [$ACnitrile,$ACimine,$ACketone,$ACsecondaryAmine,$ACester,$ACphenol,$ACether,$ACprimaryAniline,$ACnitro,$AChet5O,$ACsulphone]
+DEFINE weakAcceptor [$ACnitrile,$ACimine,$ACketone,$ACester,$ACphenol,$ACether,$ACprimaryAniline,$ACnitro,$AChet5O,$ACsulphone]
+#
+# donors
+#
+DEFINE Damine [N;!$(N*=[!#6]);!$(N~[!#6;!#1]);!$(Na);!$(N#*);!$(N=*)]
+DEFINE Dhet5NH [nH;$(n1aaaa1),$(n1aaaaa1)]
+DEFINE DNpH [NH,H2,H3;+]
+#DEFINE DacidOH [OH1;$(O-[C,S,P]=[O,S])] #leave off for implict protonation
+DEFINE Dhydroxyl [OH1;$hd1;$(O-C);!$(OC=[O,N,S])]
+DEFINE Dwater [OH2]
+DEFINE DprimaryAmide [N;$hd1;$(NC=O),$(NS=O)]
+DEFINE DanilineNH [NH1,NH2;$hd2;$(Nc);!$(NS(=O)=O)]
+DEFINE DamidineNH [NH1,NH2;$(N~C~N),$(N~C(~N)~N)]
+DEFINE DsecondaryAmide [#7;$hd2;$(*[#6,#16]=O);!$(N(a)S=O)]
+DEFINE DanilineNH2 [N;$hd1;$(Nc)]
+DEFINE DhydraN [NH1,NH2,NH3;$hd1&$(NN[#6]),$hd2&$(N(N)[#6])]
+DEFINE DimineNH [NH1;$(N=C)]
+DEFINE DphenylOH [OH1;$(Oc)]
+DEFINE DprimaryAmine [$Damine;$hd1]
+DEFINE DsecondaryAmine [$Damine;$hd2]
+# strong donors
+#DEFINE strongDonor [$Dhet5NH,$DNpH,$DacidOH,$Dhydroxyl]
+DEFINE strongDonor [$Dhet5NH,$DNpH,$Dhydroxyl]
+# moderate donors
+DEFINE moderateDonor [$Dwater,$DprimaryAmide,$DanilineNH,$DamidineNH,$DsecondaryAmide,$DanilineNH2]
+# weak donors
+DEFINE weakDonor [$DhydraN,$DimineNH,$DphenylOH,$DprimaryAmine,$DsecondaryAmine]
+#
+# anion intermediate
+#
+DEFINE negHet [#8,#16;$hd1]
+DEFINE terminalHet [#7,#8,#16;$hd1]
+DEFINE ANarylsulfonamide [N;$(N(a)S(=O)(=O)*)]
+DEFINE ANmalonic [C;!$hd4;$(C(C=[O,S])C=[O,S])]
+DEFINE ANarylthiol [S;$hd1;$(Sa)]
+DEFINE ANhalideion [I,Br,Cl,F;!H0,-]
+DEFINE ANhydroxylamine [O;$hd1;$(ON~C),$(O[n+]),$(O=n);!$(ONC=[S,O,N])]
+#
+# cation intermediate
+#
+DEFINE CATnonewN [#7;!$(NC=O);!$(NS(=O)=O)]
+DEFINE CATguanidine [$CATnonewN]!:[#6](!:[$CATnonewN])!:[$CATnonewN]
+DEFINE CATguanidineC [#6]~[$CATguanidine]
+DEFINE CATamine [N;!$(N*=[!#6]);!$(N~[!#6;!#1]);!$(Na);!$(N=*);!$(N#*)]
+#########################################
+#          Interaction Types            #
+#########################################
+TYPE donor
+TYPE acceptor
+TYPE cation
+TYPE anion
+TYPE rings
+TYPE hydrophobe
+#########################################
+#          Type Patterns                #
+#########################################
+#
+# rings
+#
+PATTERN rings [R;a]~1~[R;a]~[R;a]~[R;a]~[R;a]1
+PATTERN rings [R;a]~1~[R;a]~[R;a]~[R;a]~[R;a]~[R;a]1
+#
+# hydrophobic
+#
+# terminal hp
+PATTERN hydrophobe [$thp]~*(~[$thp])~[$thp]                     #triple
+PATTERN hydrophobe [$thp][!$(*(~[$thp])(~[$thp])~[$thp]);!$(*=[N,S,O])][$thp] #double
+PATTERN hydrophobe [$thp;!$(*~*~[$thp]);$(*~[$php])]            #single
+PATTERN hydrophobe [$thp;#35,#53]                               #large
+PATTERN hydrophobe [$mthp]                               #generic
+# non-terminal hp
+PATTERN hydrophobe [$ehp][$hp][$hp][$ehp]
+PATTERN hydrophobe [$ehp]([$ehp])[$hp][$ehp]
+PATTERN hydrophobe [$hp]([$ehp])([$ehp])[$ehp]
+PATTERN hydrophobe [$ehp][$hp][$hp][$hp][$ehp]
+PATTERN hydrophobe [$ehp][$hp][$hp;$(*[$hp][$hp][$ehp])]
+#
+# donor/acceptor patterns
+#
+PATTERN acceptor [$strongAcceptor,$moderateAcceptor,$weakAcceptor]
+PATTERN donor [$strongDonor,$moderateDonor,$weakDonor]
+#
+# anion/cation patterns
+#
+# cations
+PATTERN cation [$CATnonewN]!:[#6;!$(C(N)(N)N)](!:[$CATnonewN])!:[$CATnonewN] #guanidine
+PATTERN cation [$CATnonewN]!:[#6;!$([$CATguanidineC]);!$(C(N)N)]!:[$CATnonewN] #amidine
+PATTERN cation n:1cncc1                                #azole
+PATTERN cation [$CATamine]
+# anions
+PATTERN anion [$negHet][#6X3]~[$terminalHet]                   #carboxylate
+PATTERN anion [$negHet][#16X4](~[$terminalHet])~[$terminalHet] #sulfonate
+PATTERN anion [$negHet][#15X4](=O)[$negHet,$terminalHet]       #phosphonate
+PATTERN anion [n;$hd2]1[n;$hd2][n;$hd2][n;$hd2]c1              #tetrazole
+PATTERN anion [$ANarylsulfonamide,$ANmalonic,$ANarylthiol,$ANhalideion,$ANhydroxylamine]
+#########################################
+#       Interaction Definitions         #
+#########################################
+INTERACTION donor donor attractive gaussian weight=1.0 radius=1.0
+INTERACTION acceptor acceptor attractive gaussian weight=1.0 radius=1.0
+INTERACTION rings rings attractive gaussian weight=1.0 radius=1.0
+INTERACTION cation cation attractive gaussian weight=1.0 radius=1.0
+INTERACTION anion anion attractive gaussian weight=1.0 radius=1.0
+INTERACTION hydrophobe hydrophobe attractive gaussian weight=1.0 radius=1.0
+#########################################
+#           Unused Types                #
+#########################################
+# metal binders
+#
+# TYPE Ca_Mg
+# PATTERN Ca_Mg [#8;-]
+# PATTERN Ca_Mg [#16;-]
+# PATTERN Ca_Mg [nh0]1aaaa1
+#
+# TYPE Zn
+# DEFINE hydroxamate O=[CX3]N[O-]
+# DEFINE reverseHydrox O=[CH][NX3][O-]
+# PATTERN Zn [#8;-;!$([$hydroxamate,$reverseHydrox])]
+# PATTERN Zn O=[CX3]N[O-]
+# PATTERN Zn O=[CH][NX3][O-]
+# PATTERN Zn [#16;-]
+# PATTERN Zn O=C[ND2][O-]
+# PATTERN Zn [n-]

@@ -104,6 +104,7 @@ dependencies:
   - pyparsing=2.4.7=pyh9f0ad1d_0
   - pyqt=5.12.3=py37hcca6a23_1
   - pyrsistent=0.16.0=py37h8f50634_0
+  - pyspark
   - python=3.7.6=h8356626_5_cpython
   - python-dateutil=2.8.1=py_0
   - python_abi=3.7=1_cp37m
