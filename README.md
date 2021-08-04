@@ -1,5 +1,5 @@
 # ReinventCommunity
-This repository is a collection of useful `jupyter` notebooks, code snippets and example `JSON` files illustrating the use of [Reinvent 2.0](https://github.com/MolecularAI/Reinvent).
+This repository is a collection of useful `jupyter` notebooks, code snippets and example `JSON` files illustrating the use of [Reinvent 3.0](https://github.com/MolecularAI/Reinvent).
 At the moment, the following notebooks are supported:
 * `Complete_Use-Case_DRD2_Demo`: a full-fledged use case using public data on `DRD2`, including use of predictive models and elucidating general considerations
 * `Create_Model_Demo`: explanation on how to initialize a new model (prior / agent) for `REINVENT` which can be trained in a *transfer learning* setup
