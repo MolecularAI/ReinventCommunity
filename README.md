@@ -1,5 +1,5 @@
-# ReinventCommunity
-This repository is a collection of useful `jupyter` notebooks, code snippets and example `JSON` files illustrating the use of [Reinvent 3.0](https://github.com/MolecularAI/Reinvent).
+# ReinventCommunity (`jupyter` notebook tutorials for `REINVENT 3.1`)
+This repository is a collection of useful `jupyter` notebooks, code snippets and example `JSON` files illustrating the use of [Reinvent 3.1](https://github.com/MolecularAI/Reinvent).
 At the moment, the following notebooks are supported:
 * `Complete_Use-Case_DRD2_Demo`: a full-fledged use case using public data on `DRD2`, including use of predictive models and elucidating general considerations
 * `Create_Model_Demo`: explanation on how to initialize a new model (prior / agent) for `REINVENT` which can be trained in a *transfer learning* setup
@@ -15,3 +15,7 @@ At the moment, the following notebooks are supported:
 * `Scoring_Demo`: in case a set of existing compound definitions (for example prior to starting a project) should be scored with a scoring function definition, the `scoring mode` can be used
 * `Transfer_Learning_Demo`: this tutorial illustrates the `transfer learning` mode, which usually is used to "pre-train" an agent before `reinforcement learning` in case no adequate naive prior is available or to focus an already existing agent further
 * `Transfer_Learning_Demo_Teachers_Forcing`: same as `Transfer_Learning_Demo` above, with explanation of `teachers forcing`
+* `Lib-INVENT_RL1_QSAR`: Lib-INVENT example reinforcement learning run using a QSAR model
+* `Lib-INVENT_RL2_QSAR_RF`: Lib-INVENT example reinforcement learning run using a random forest (RF) QSAR model
+* `Lib_INVENT_RL3_ROCS_RF`: Lib-INVENT example reinforcement learning using OpenEye's ROCS 3D similarity (requires an OpenEye license)
+* `Automated_Curriculum_Learning_demo`: illustrates the automated curriculum learning running model. The example demonstrates how to set-up a curriculum to guide the REINVENT agent to sample a target molecular scaffold. This scenario represents a complex objective as the target scaffold is not present in the training set for the prior model

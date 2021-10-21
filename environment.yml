@@ -74,6 +74,7 @@ dependencies:
   - matplotlib=3.2.1
   - matplotlib-base=3.2.1
   - mistune=0.8.4
+  - molvs
   - nbconvert=5.6.1
   - nbformat=5.0.4
   - ncurses=6.1
@@ -104,6 +105,7 @@ dependencies:
   - pyparsing=2.4.7
   - pyqt=5.12.3
   - pyrsistent=0.16.0
+  - pyspark
   - python=3.7.6
   - python-dateutil=2.8.1
   - python_abi=3.7
